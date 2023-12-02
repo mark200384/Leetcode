@@ -1,24 +1,23 @@
 class Solution {
 public:
     int countCharacters(vector<string>& words, string chars) {
-        unordered_map<char, int> mp;
-        for(char c:chars)
-            mp[c]++;
+        vector<int> mp(26, 0);
+        for(char c:chars) {
+            mp[c-'a']++;
+        }
         
         int ans=0;
         for(string word:words) {
-            unordered_map<char, int> tmp=mp;
+            vector<int> tmp = mp;
             int flag=0;
-            for(int i=0; i<word.length(); i++) {
-                tmp[word[i]]--;
-                if(tmp[word[i]] < 0) {
+            for(int j=0; j<word.size(); j++) {
+                tmp[word[j]-'a']--;
+                if(tmp[word[j]-'a'] < 0) {
                     flag=1;
                     break;
                 }
             }
-            if(!flag) {
-                ans += word.length();
-            }
+            if(!flag) ans += word.length();
         }
         return ans;
     }
