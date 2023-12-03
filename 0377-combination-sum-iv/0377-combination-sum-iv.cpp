@@ -7,7 +7,7 @@ public:
             return 1;
         }
 
-        if (memo.find(target) != memo.end()) {
+        if (memo.count(target)) {
             return memo[target];
         }
 
