@@ -1,8 +1,9 @@
 class TrieNode {
 public:
-    bool isWord=false;
-    TrieNode * child[26];
-    TrieNode () {
+    bool isWord;
+    TrieNode* child[26];
+    TrieNode() {
+        isWord = false;
         for(auto &c:child) {
             c = nullptr;
         }
@@ -15,8 +16,8 @@ public:
 };
 class Solution {
 public:
+    TrieNode* root= new TrieNode();
     bool wordBreak(string s, vector<string>& wordDict) {
-        TrieNode* root = new TrieNode();
         for(string word:wordDict) {
             TrieNode* curr = root;
             for(char c:word) {
@@ -26,21 +27,20 @@ public:
             }
             curr->isWord = true;
         }
-
-        vector<bool> dp(s.length(), false); //true: end of words
+        
+        vector<bool> dp(s.length(), false);
         for(int i=0; i<s.length(); i++) {
-            if(i==0 || dp[i-1]) {//前一個字元是某word結尾
-                TrieNode* curr = root;
-                for(int j=i ; j<s.length(); j++) {
+            if(i==0 || dp[i-1]) {
+                TrieNode *curr = root;
+                for(int j=i; j<s.length(); j++) {
                     char c = s[j];
-                    if(!curr->child[c-'a']) {
-                        break;
-                    }
+                    if(!curr->child[c-'a']) break;
                     curr = curr->child[c-'a'];
-                    if(curr->isWord) dp[j]=true;
+                    if(curr->isWord) dp[j] = true;
                 }
             }
         }
+        
         return dp[s.length()-1];
     }
 };
