@@ -4,61 +4,50 @@ public:
     TrieNode* child[26];
     TrieNode() {
         isWord = false;
-        for(auto &c: child) {
+        for(auto &c:child) {
             c = nullptr;
         }
     }
     ~TrieNode() {
         for(auto &c:child) {
-            if(c) {
-                delete c;
-                c = nullptr;
-            }
+            delete c;
         }
     }
 };
-
 class WordDictionary {
 public:
-    TrieNode *root;
+    TrieNode* root;
     WordDictionary() {
         root = new TrieNode();
     }
     
     void addWord(string word) {
-        TrieNode* p = root;
-        for(char &c:word) {
-            int i = c-'a';
-            if(!p->child[i]) {
-                p->child[i] = new TrieNode();
-            }
-            p = p->child[i];
+        TrieNode* curr = root;
+        for(char ch:word) {
+            int i = ch-'a';
+            if(!curr->child[i]) curr->child[i] = new TrieNode();
+            curr = curr->child[i];
         }
-        p->isWord = true;
+        curr->isWord = true;
     }
     
     bool search(string word) {
-        return searchHelper(word,root);   
+        return helper(word, root);
     }
-
-    bool searchHelper(string word, TrieNode*  node){
-        for(int i=0;i<word.length();i++){
-            char ch = word[i];
-            if(ch == '.'){
-                for(auto c: node->child){
-                    if(c && searchHelper(word.substr(i+1),c)){
+    
+    bool helper(string word, TrieNode* node) {
+        for(int i=0; i<word.length(); i++) {
+            if(word[i] =='.') {
+                for(auto c:node->child) {
+                    if(c && helper(word.substr(i+1),c)) {
                         return true;
                     }
                 }
                 return false;
             }
-            int index=ch-'a';
-            if(node->child[index]==NULL){
-                return false;
-            }
-            node=node->child[index];
+            if(!node->child[word[i]-'a']) return false;
+            node = node->child[word[i]-'a'];
         }
         return node->isWord;
-        
     }
 };
