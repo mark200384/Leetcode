@@ -1,10 +1,11 @@
 class Solution {
 public:
+    int dp[1001][1001];
     //Let DP[i][j] denote the minimum number of white tiles still visible from indices i to floor.length-1 after covering with at most j carpets.
     int minimumWhiteTiles(string floor, int numCarpets, int carpetLen) {
         int n = floor.size();
         floor = "#" + floor;
-        vector<vector<int>> dp(n+1, vector<int>(numCarpets+1, 1e9));
+        //vector<vector<int>> dp(n+1, vector<int>(numCarpets+1, 1e9));
         dp[0][0]=0;
         for(int i=1; i<=n; i++) { // # of tiles
             for(int j=0; j<=numCarpets; j++) { // # of carpets
