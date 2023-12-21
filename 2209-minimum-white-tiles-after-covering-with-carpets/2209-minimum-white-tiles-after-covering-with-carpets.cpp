@@ -9,10 +9,10 @@ public:
         dp[0][0]=0;
         for(int i=1; i<=n; i++) { // # of tiles
             for(int j=0; j<=numCarpets; j++) { // # of carpets
-                dp[i][j] = INT_MAX/2;
-                dp[i][j] = dp[i-1][j] + (floor[i]=='1'); //                  
-                if (j>=1)
-                    dp[i][j] = min(dp[i][j], i>=carpetLen ? dp[i-carpetLen][j-1]:0);
+                dp[i][j] = INT_MAX/2; //initialization
+                dp[i][j] = dp[i-1][j] + (floor[i]=='1'); //第i個不鋪地毯, (如果floor[i]是白色則# of min white要+1)
+                if (j>=1) //有地毯
+                    dp[i][j] = min(dp[i][j], i>=carpetLen ? dp[i-carpetLen][j-1]:0); //鋪地毯, 且確保i-carpetLen >=0
             }
         }
         return dp[n][numCarpets];
