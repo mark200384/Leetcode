@@ -10,7 +10,8 @@ public:
                 score++;
                 power -= tokens[i++];
             }
-            else if(i < j && score > 0) {
+            else if(i < j && score > 0) { //if i == j 不執行。
+                //避免在沒有任何有益增益的情況下不必要地降低分數的情況
                 score--;
                 power += tokens[j--];
             }
