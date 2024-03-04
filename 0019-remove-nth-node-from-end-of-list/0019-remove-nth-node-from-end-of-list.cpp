@@ -1,19 +1,15 @@
 class Solution {
-public: 
+public:
     ListNode* removeNthFromEnd(ListNode* head, int n) {
-        ListNode* curr = head;
-        int count=0;
-        while(curr) {
-            curr = curr->next;
-            count++;
+        ListNode* slow = head, *fast = head;
+        for(int i=0; i<n; i++)
+            fast = fast->next;
+        if(!fast) return head->next;
+        while(fast->next) {
+            slow = slow->next;
+            fast = fast->next;
         }
-        if(count == n) return head->next;
-        n = count - n; //從前面數來第count-n+1個, 但從count-n個的next開始斷開
-        curr = head;
-        while(--n) {
-            curr = curr->next;
-        }
-        curr->next = curr->next->next;
+        slow->next = slow->next->next;
         return head;
     }
 };
